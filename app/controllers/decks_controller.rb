@@ -25,6 +25,9 @@ class DecksController < ApplicationController
   # GET /decks/new.json
   def new
     @deck = Deck.new
+    3.times do
+      @deck.cards.build
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,14 +46,14 @@ class DecksController < ApplicationController
     @deck = Deck.new()
     @deck.name = params[:deck][:name]
 
-    @deck.description = deck[:description]
+    @deck.description = params[:deck][:description]
 
     params[:cards].each do |card|
-      card = Card.new
-      card[:name] = card.name
-      card[:strength] = card.strength
+      ccard = Card.new
+      ccard.name = card[:name]
+      ccard.strength = card[:strength]
 
-      @deck.cards << card
+      @deck.cards << ccard
     end
 
     if @deck.save
